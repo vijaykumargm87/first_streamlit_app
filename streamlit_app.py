@@ -15,7 +15,6 @@ fruits_selected=streamlit.multiselect("Pick some fruits:", list(my_fruit_list.in
 fruits_to_show=my_fruit_list.loc[fruits_selected]
 streamlit.dataframe(fruits_to_show)
 #New section for Fruity Vice API 
-
 def get_fruityvice_data(this_fruit_choice):
       fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + this_fruit_choice)
       fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
@@ -31,7 +30,7 @@ try:
       back_from_function=get_fruityvice_data(fruit_choice)
       streamlit.dataframe(back_from_function)
 except URLError as e:
-streamlit.stop()
+      streamlit.error()
 my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
 my_cur = my_cnx.cursor()
 my_cur.execute("select * from pc_rivery_db.public.fruit_load_list")
